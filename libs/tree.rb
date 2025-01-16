@@ -46,6 +46,28 @@ class Tree
     end
   end
 
+  def insert(value, node = @zero_root)
+    return if @data_array.include?(value)
+
+    until value.nil?
+      if value > node.value
+        if node.right.nil?
+          node.right = Node.new(value, nil, nil)
+          break
+        end
+        node = node.right
+      elsif value < node.value
+        if node.left.nil?
+          node.left = Node.new(value, nil, nil)
+          break
+        end
+        node = node.left
+      end
+    end
+
+    # end
+  end
+
   def visualize_tree(node = @zero_root, prefix = '', is_left = true)
     return if node.nil?
 
