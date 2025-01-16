@@ -5,12 +5,12 @@ class Node
   # Include comparable module to handle comparisons between nodes
   include Comparable
 
-  attr_accessor :value, :left_child, :right_child
+  attr_accessor :value, :left, :right
 
-  def initialize(value = nil, left_child = nil, right_child = nil)
+  def initialize(value = nil, left = nil, right = nil)
     @value = value
-    @left_child = left_child
-    @right_child = right_child
+    @left = left
+    @right = right
   end
 
   # def <=> (other)
