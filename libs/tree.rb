@@ -9,6 +9,7 @@ class Tree
     @data_array = nil
     @zero_root = nil
     @root_value = 0
+    @tail = nil
   end
 
   def build_tree(data_array)
@@ -64,8 +65,74 @@ class Tree
         node = node.left
       end
     end
+  end
 
-    # end
+  def delete(value, node = @zero_root, previous_node = @zero_root)
+    loop do
+      # p value'@zero_root'
+      puts "Node: #{node.value}"
+      if node.value == value
+        p "Start node found #{node.value} #{node.left.nil? ? 'nil' : node.left} #{node.right.nil? ? 'nil' : node.right}"
+        if no_children?(node)
+          previous_node = no_children(node, previous_node)
+        elsif one_child?(node)
+          previous_node = one_child(node, previous_node)
+        else # two children
+          return
+        end
+        # node = only_one_child(node) if
+        p "End Node #{node.value} #{node.left.nil? ? 'nil' : node.left} #{node.right.nil? ? 'nil' : node.right}"
+
+        # if !previous_node.left.nil? && previous_node.left.value == value
+        #   previous_node.left = nil
+        # else
+        #   previous_node.right = nil
+        # end
+        return @zero_root
+      end
+      previous_node = node
+      puts "Temp Node: #{node} #{node.value}"
+      if value > node.value
+        node = node.right
+      elsif value < node.value
+        node = node.left
+      end
+    end
+  end
+
+  def no_children?(node)
+    node.right.nil? && node.left.nil?
+  end
+
+  def no_children(node, previous_node)
+    if previous_node.left == node
+      previous_node.left = nil
+    elsif previous_node.right == node
+      previous_node.right = nil
+    end
+    previous_node
+  end
+
+  def one_child?(node)
+    (node.right.nil? && !node.left.nil?) || (node.left.nil? && !node.right.nil?)
+  end
+
+  def one_child(node, previous_node)
+    if previous_node.left == node
+      previous_node.left = reassign_child(node)
+    elsif previous_node.right == node
+      previous_node.right = reassign_child(node)
+    end
+    previous_node
+  end
+
+  def reassign_child(node)
+    if node.right.nil? && !node.left.nil?
+      node = node.left
+    elsif node.left.nil? && !node.right.nil?
+      node = node.right
+    end
+    node
   end
 
   def visualize_tree(node = @zero_root, prefix = '', is_left = true)
@@ -75,4 +142,11 @@ class Tree
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
     visualize_tree(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
+
+  # def node_found(node, _previous_node)
+  #   p 'Start node found'
+  #   p temp_node = node.right unless node.right.nil? || temp_node.right.nil?
+  #   p temp_node = temp_node.left until temp_node.nil? || temp_node.left.nil?
+  #   puts "Temp Node: #{temp_node.value}"
+  # end
 end
