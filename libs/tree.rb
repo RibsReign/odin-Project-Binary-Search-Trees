@@ -69,29 +69,20 @@ class Tree
 
   def delete(value, node = @zero_root, previous_node = @zero_root)
     loop do
-      # p value'@zero_root'
-      puts "Node: #{node.value}"
       if node.value == value
-        p "Start node found #{node.value} #{node.left.nil? ? 'nil' : node.left} #{node.right.nil? ? 'nil' : node.right}"
         if no_children?(node)
           previous_node = no_children(node, previous_node)
         elsif one_child?(node)
           previous_node = one_child(node, previous_node)
         else # two children
-          return
+          hold_branch = node.left
+          replacement = two_children_value(node)
+          node.value = replacement.value
+          node.left = hold_branch
         end
-        # node = only_one_child(node) if
-        p "End Node #{node.value} #{node.left.nil? ? 'nil' : node.left} #{node.right.nil? ? 'nil' : node.right}"
-
-        # if !previous_node.left.nil? && previous_node.left.value == value
-        #   previous_node.left = nil
-        # else
-        #   previous_node.right = nil
-        # end
         return @zero_root
       end
       previous_node = node
-      puts "Temp Node: #{node} #{node.value}"
       if value > node.value
         node = node.right
       elsif value < node.value
@@ -133,6 +124,27 @@ class Tree
       node = node.right
     end
     node
+  end
+
+  def two_children_value(node)
+    replacement = node.right
+    parent = node
+    until replacement.left.nil?
+      parent = replacement
+      replacement = replacement.left
+    end
+    parent.left = replacement.right
+    replacement
+  end
+
+  def replace_root(node)
+    replacement = node.right
+    right_branch = replacement.right
+    sub_node_value = replacement.value
+    replacement = replacement.left until replacement.left.nil?
+    # if replacement.right.nil?
+    p "I am the replacement  #{replacement.value}"
+    Node.new(sub_node_value, nil, right_branch)
   end
 
   def visualize_tree(node = @zero_root, prefix = '', is_left = true)
