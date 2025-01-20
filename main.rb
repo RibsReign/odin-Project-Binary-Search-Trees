@@ -35,7 +35,7 @@ tree_two.delete(952)
 tree_two.visualize_tree
 tree_two.delete(892)
 tree_two.visualize_tree
-
+p tree_two.find(33)
 # unsorted_tree = Tree.new
 # unsorted_tree.build_tree([1, 7, 4, 23, 8, 9, 4, 5, 7, 9, 67, 6345, 324])
 # unsorted_tree.visualize_tree
