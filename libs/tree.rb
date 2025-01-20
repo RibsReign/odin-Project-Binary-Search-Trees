@@ -2,9 +2,10 @@
 
 require_relative 'array'
 require_relative 'node'
-
+require_relative 'tree_operations'
 # t
 class Tree
+  include TreeOperations
   def initialize
     @data_array = nil
     @zero_root = nil
@@ -20,131 +21,40 @@ class Tree
       @zero_root = Node.new(@data_array[array_middle], make_root(0, array_middle),
                             make_root(array_middle, @data_array.length, false))
     end
-    # visualize_node(@zero_root)
-
     @zero_root
   end
 
   def make_root(arr_start, arr_end, is_left = true)
     array = @data_array[arr_start...arr_end]
     if array.length == 1
-      return nil if array[0] == @root_value
-
-      Node.new(array[0], nil, nil)
+      node_from_one(array)
     elsif array.length == 2
-      array_middle = if is_left == true
-                       ((arr_start + arr_end) / 2)
-                     else
-                       ((arr_start + arr_end) / 2) - 1
-                     end
-      Node.new(@data_array[array_middle], make_root(arr_start, array_middle),
-               make_root(array_middle + 1, arr_end))
+      node_from_two(arr_start, arr_end, is_left)
     elsif array.length > 2
-
-      array_middle = ((arr_start + arr_end) / 2)
-      Node.new(@data_array[array_middle], make_root(arr_start, array_middle),
-               make_root(array_middle + 1, arr_end, false))
+      node_from_array(arr_start, arr_end)
     end
   end
 
-  def insert(value, node = @zero_root)
-    return if @data_array.include?(value)
+  def node_from_one(array)
+    return nil if array[0] == @root_value
 
-    until value.nil?
-      if value > node.value
-        if node.right.nil?
-          node.right = Node.new(value, nil, nil)
-          break
-        end
-        node = node.right
-      elsif value < node.value
-        if node.left.nil?
-          node.left = Node.new(value, nil, nil)
-          break
-        end
-        node = node.left
-      end
-    end
+    Node.new(array[0], nil, nil)
   end
 
-  def delete(value, node = @zero_root, previous_node = @zero_root)
-    loop do
-      if node.value == value
-        if no_children?(node)
-          previous_node = no_children(node, previous_node)
-        elsif one_child?(node)
-          previous_node = one_child(node, previous_node)
-        else # two children
-          hold_branch = node.left
-          replacement = two_children_value(node)
-          node.value = replacement.value
-          node.left = hold_branch
-        end
-        return @zero_root
-      end
-      previous_node = node
-      if value > node.value
-        node = node.right
-      elsif value < node.value
-        node = node.left
-      end
-    end
+  def node_from_array(arr_start, arr_end)
+    array_middle = ((arr_start + arr_end) / 2)
+    Node.new(@data_array[array_middle], make_root(arr_start, array_middle),
+             make_root(array_middle + 1, arr_end, false))
   end
 
-  def no_children?(node)
-    node.right.nil? && node.left.nil?
-  end
-
-  def no_children(node, previous_node)
-    if previous_node.left == node
-      previous_node.left = nil
-    elsif previous_node.right == node
-      previous_node.right = nil
-    end
-    previous_node
-  end
-
-  def one_child?(node)
-    (node.right.nil? && !node.left.nil?) || (node.left.nil? && !node.right.nil?)
-  end
-
-  def one_child(node, previous_node)
-    if previous_node.left == node
-      previous_node.left = reassign_child(node)
-    elsif previous_node.right == node
-      previous_node.right = reassign_child(node)
-    end
-    previous_node
-  end
-
-  def reassign_child(node)
-    if node.right.nil? && !node.left.nil?
-      node = node.left
-    elsif node.left.nil? && !node.right.nil?
-      node = node.right
-    end
-    node
-  end
-
-  def two_children_value(node)
-    replacement = node.right
-    parent = node
-    until replacement.left.nil?
-      parent = replacement
-      replacement = replacement.left
-    end
-    parent.left = replacement.right
-    replacement
-  end
-
-  def replace_root(node)
-    replacement = node.right
-    right_branch = replacement.right
-    sub_node_value = replacement.value
-    replacement = replacement.left until replacement.left.nil?
-    # if replacement.right.nil?
-    p "I am the replacement  #{replacement.value}"
-    Node.new(sub_node_value, nil, right_branch)
+  def node_from_two(arr_start, arr_end, is_left)
+    array_middle = if is_left == true
+                     ((arr_start + arr_end) / 2)
+                   else
+                     ((arr_start + arr_end) / 2) - 1
+                   end
+    Node.new(@data_array[array_middle], make_root(arr_start, array_middle),
+             make_root(array_middle + 1, arr_end))
   end
 
   def visualize_tree(node = @zero_root, prefix = '', is_left = true)
