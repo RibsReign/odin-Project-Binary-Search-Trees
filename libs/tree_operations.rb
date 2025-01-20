@@ -32,6 +32,18 @@ module TreeOperations
     node
   end
 
+  def find(value, node = @zero_root)
+    if value == node.value
+      node
+    elsif value < node.value
+      find(value, node.left)
+    else
+      find(value, node.right)
+    end
+  end
+
+  private
+
   def delete_node(node)
     if node.left.nil? && node.right.nil? # no_children
       return nil
