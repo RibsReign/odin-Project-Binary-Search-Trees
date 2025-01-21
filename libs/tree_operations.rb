@@ -82,6 +82,19 @@ module TreeOperations
     yield node if block_given?
   end
 
+  def height(value, node = @zero_root, depth = 0)
+    return if node.nil?
+
+    depth += 1
+    if value == node.value
+      depth
+    elsif value < node.value
+      height(value, node.left, depth)
+    else
+      height(value, node.right, depth)
+    end
+  end
+
   private
 
   def delete_node(node)
