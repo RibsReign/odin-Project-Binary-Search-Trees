@@ -23,7 +23,7 @@ module TreeOperations
 
     if value == node.value
       node = delete_node(node)
-    elsif value < node.value
+    elsif node && value < node.value
       node.left = delete(value, node.left)
     else
       node.right = delete(value, node.right)
@@ -93,6 +93,14 @@ module TreeOperations
     else
       depth(value, node.right, depth)
     end
+  end
+
+  def height(node)
+    return -1 if node.nil?
+
+    left_height = height(node.left)
+    right_height = height(node.right)
+    [left_height, right_height].max + 1
   end
 
   private
