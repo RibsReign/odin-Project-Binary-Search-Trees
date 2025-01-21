@@ -36,7 +36,17 @@ tree.visualize_tree
 # tree_two.delete(892)
 # tree_two.visualize_tree
 # p tree_two.find(33)
-tree.level_order do |node|
+# tree.level_order do |node|
+#   puts "Yielded node: #{node.value}, Left: #{node.left&.value}, Right: #{node.right&.value}"
+# end
+
+# tree.inorder do |node|
+#   puts "Yielded node: #{node.value}, Left: #{node.left&.value}, Right: #{node.right&.value}"
+# end
+# # tree.preorder do |node|
+# #   puts "Yielded node: #{node.value}, Left: #{node.left&.value}, Right: #{node.right&.value}"
+# # end
+tree.postorder do |node|
   puts "Yielded node: #{node.value}, Left: #{node.left&.value}, Right: #{node.right&.value}"
 end
 # unsorted_tree = Tree.new
