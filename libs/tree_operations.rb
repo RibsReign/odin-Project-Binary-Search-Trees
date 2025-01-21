@@ -82,16 +82,16 @@ module TreeOperations
     yield node if block_given?
   end
 
-  def depth(value, node = @zero_root, depth = 0)
+  def depth(input, node = @zero_root, depth = 0)
     return if node.nil?
 
     depth += 1
-    if value == node.value
+    if input.value == node.value
       depth - 1
-    elsif value < node.value
-      depth(value, node.left, depth)
+    elsif input.value < node.value
+      find_depth(input.value, node.left, depth)
     else
-      depth(value, node.right, depth)
+      find_depth(input.value, node.right, depth)
     end
   end
 
