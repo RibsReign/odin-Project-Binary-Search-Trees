@@ -20,7 +20,8 @@ tree.delete(67)
 tree.visualize_tree
 tree.delete(8)
 tree.visualize_tree
-
+node = tree.find(320)
+p tree.height(node)
 # tree_two = Tree.new
 # tree_two.build_tree([33, 664, 387, 442, 414, 892, 313, 931, 134, 362,
 #                      396, 325, 666, 676, 746, 823, 836, 541, 590, 622,
@@ -50,6 +51,12 @@ tree.postorder do |node|
   puts "Yielded node: #{node.value}, Left: #{node.left&.value}, Right: #{node.right&.value}"
 end
 p tree.depth(1)
+p tree.height(tree.find(1))
+p tree.height(tree.find(3))
+p tree.height(tree.find(9000))
+p tree.height(tree.find(320))
+p tree.height(tree.find(4))
+
 # unsorted_tree = Tree.new
 # unsorted_tree.build_tree([1, 7, 4, 23, 8, 9, 4, 5, 7, 9, 67, 6345, 324])
 # unsorted_tree.visualize_tree
