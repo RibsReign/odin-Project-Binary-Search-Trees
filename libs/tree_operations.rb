@@ -42,6 +42,20 @@ module TreeOperations
     end
   end
 
+  def level_order(node = @zero_root)
+    return if node.nil?
+
+    queue = [node]
+
+    until queue.empty?
+      current_node = queue.shift
+      yield current_node if block_given?
+
+      queue << current_node.left if current_node.left
+      queue << current_node.right if current_node.right
+    end
+  end
+
   private
 
   def delete_node(node)
