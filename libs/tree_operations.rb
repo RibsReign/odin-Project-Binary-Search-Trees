@@ -3,7 +3,7 @@
 # TreeOperations
 module TreeOperations
   def insert(value, node = @zero_root)
-    return if @data_array.include?(value)
+    return if find(value)
 
     until value.nil?
       if value > node.value
@@ -33,6 +33,8 @@ module TreeOperations
   end
 
   def find(value, node = @zero_root)
+    return if node.nil?
+
     if value == node.value
       node
     elsif value < node.value
@@ -54,6 +56,30 @@ module TreeOperations
       queue << current_node.left if current_node.left
       queue << current_node.right if current_node.right
     end
+  end
+
+  def inorder(node = @zero_root, &block)
+    return if node.nil?
+
+    inorder(node&.left, &block)
+    yield node if block_given?
+    inorder(node&.right, &block)
+  end
+
+  def preorder(node = @zero_root, &block)
+    return if node.nil?
+
+    yield node if block_given?
+    preorder(node&.left, &block)
+    preorder(node&.right, &block)
+  end
+
+  def postorder(node = @zero_root, &block)
+    return if node.nil?
+
+    postorder(node&.left, &block)
+    postorder(node&.right, &block)
+    yield node if block_given?
   end
 
   private
