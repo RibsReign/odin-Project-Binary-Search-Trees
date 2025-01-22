@@ -65,6 +65,13 @@ module TreeOperations
     [left_height, right_height].max + 1
   end
 
+  def balanced?(root)
+    root.level_order do |node|
+      return false if (height(node.left) - height(node.right)).abs > 1
+    end
+    true
+  end
+
   private
 
   def delete_node(node)
