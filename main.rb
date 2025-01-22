@@ -61,6 +61,8 @@ p tree.height(tree.find(4))
 tree.postorder do |node|
   puts "Yielded node: #{node.value}, Left: #{node.left&.value}, Right: #{node.right&.value}"
 end
+
+p tree.balanced?(tree)
 # unsorted_tree = Tree.new
 # unsorted_tree.build_tree([1, 7, 4, 23, 8, 9, 4, 5, 7, 9, 67, 6345, 324])
 # unsorted_tree.visualize_tree
