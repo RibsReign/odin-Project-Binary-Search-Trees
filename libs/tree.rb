@@ -3,9 +3,13 @@
 require_relative 'array'
 require_relative 'node'
 require_relative 'tree_operations'
-# t
+require_relative 'tree_traversal'
+
+# Tree
 class Tree
   include TreeOperations
+  include TreeTraversal
+
   def initialize
     @data_array = nil
     @zero_root = nil
