@@ -72,6 +72,16 @@ module TreeOperations
     true
   end
 
+  def rebalance
+    @data_array = []
+    level_order do |node|
+      @data_array << node.value
+    end
+    tree = Tree.new
+    tree.build_tree(@data_array)
+    tree
+  end
+
   private
 
   def delete_node(node)
